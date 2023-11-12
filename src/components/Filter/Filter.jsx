@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { FcSearch } from 'react-icons/fc';
 import { selectContacts, selectFilter } from 'redux/selectors';
 import { setFilter } from 'redux/filterSlice';
-import { Input } from './Filter.styled';
+import { InputStyles, Title } from './Filter.styled';
 
 function Filter() {
   const dispatch = useDispatch();
@@ -11,14 +12,16 @@ function Filter() {
     dispatch(setFilter(event.target.value.trim()));
   };
 
-  return (
-    <Input
+  return useSelector(selectContacts).length < 1 ? (
+    <Title>Add your first contact</Title>
+  ) : (
+    <InputStyles
       type="text"
       name="filter"
       placeholder="Search by name"
       value={filter}
       onChange={handleFilterChange}
-      disabled={useSelector(selectContacts).length === 0}
+      prefix={<FcSearch />}
     />
   );
 }
